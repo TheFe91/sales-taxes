@@ -1,0 +1,142 @@
+{% extends '@App/includes/base.html.twig' %}
+
+{% block headtitle %}Shopping Baskets{% endblock %}
+
+{% block pagetitle %}Shopping Baskets{% endblock %}
+
+{% block headeractions %}
+    <div>
+        <button
+                type="button"
+                class="d-sm-inline-block btn btn-sm background-custom shadow-sm"
+                style="border-radius: 20px"
+                id="generateReceipt"
+        >
+            <i class="fas fa-receipt fa-sm text-white-50"></i>
+            &nbsp;<span style="color: white">Generate Receipt</span>
+        </button>
+        <button
+                type="button"
+                class="d-sm-inline-block btn btn-sm background-custom shadow-sm"
+                style="border-radius: 20px"
+                id="addProduct"
+        >
+            <i class="fas fa-plus fa-sm text-white-50"></i>
+            &nbsp;<span style="color: white">Add a product</span>
+        </button>
+    </div>
+{% endblock %}
+
+{% block pagecontent %}
+    <div class="row">
+        <div class="col-lg-12 table-responsive">
+            <table id="page_table" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Shopping Basket Name</th>
+                    <th>Category</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Shelf Price</th>
+                    <th>Taxes</th>
+                    <th>Row Amount</th>
+                </tr>
+                </thead>
+                <tbody id="pageTBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    {% include '@App/modals/insert_product_modal.html.twig' %}
+    {% include '@App/modals/generate_receipt_modal.html.twig' %}
+
+{% endblock %}
+
+{% block customjavascript %}
+    <script>
+        let page_table;
+
+        $(function() {
+            fillTable();
+
+            $('.selects').select2({
+                placeholder: 'Please select a value',
+                minimumResultsForSearch: 10
+            });
+
+            $('#basket').select2({
+                placeholder: 'Please select a basket or insert a name for create a new',
+                tags: true
+            });
+        });
+
+        $('#addProduct').on('click', function() {
+            $('#insertModal').modal('show');
+        });
+
+        $('#generateReceipt').on('click', function() {
+            $('#generateReceiptModal').modal('show');
+        });
+
+        function addProduct() {
+            if ($('.fields').val() !== '') {
+                const page_form = $('#insert_form');
+                $.post(
+                    page_form.attr('action'),
+                    page_form.serialize(),
+                    function() {
+                        $('#insertModal').modal('hide');
+                        $('.fields').val('');
+                        $('#error').addClass('d-none');
+                        fillTable();
+                    }
+                );
+            }
+            else {
+                $('#error').removeClass('d-none');
+            }
+        }
+
+        function generateReceipt() {
+            if ($('#basket_receipts').val() !== '') {
+                const form = $('#receipts_form');
+                $.post(
+                    form.attr('action'),
+                    form.serialize(),
+                    function() {
+                        $('#generateReceiptModal').modal('hide');
+                        $('#error_receipt').addClass('d-none');
+                        window.open('{{ url('pdfReceipts_url') }}', '_blank');
+                    }
+                );
+            }
+            else {
+                $('#error_receipt').removeClass('d-none');
+            }
+        }
+
+        function fillTable() {
+            $.get('{{ url('getProducts_url') }}', function(data) {
+                if ($.fn.dataTable.isDataTable(page_table)) {
+                    page_table.destroy();
+                }
+                $('#pageTBody').empty();
+                $.each(data.data, function(uid,v) {
+                    const append = `
+                        <tr>
+                            <td>${v['basket']}</td>
+                            <td>${v['category']}</td>
+                            <td>${v['description']}</td>
+                            <td>${v['quantity']}</td>
+                            <td>${v['shelf_price']}</td>
+                            <td>${v['taxes']}</td>
+                            <td>${v['row_amount']}</td>
+                        </tr>
+                    `;
+                    $('#pageTBody').append(append);
+                });
+                page_table = $('#page_table').DataTable();
+            });
+        }
+    </script>
+{% endblock %}

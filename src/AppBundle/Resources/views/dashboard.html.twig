@@ -1,0 +1,66 @@
+{% extends '@App/includes/base.html.twig' %}
+
+{% block headtitle %}Dashboard{% endblock %}
+
+{% block pagetitle %}Dashboard{% endblock %}
+
+{% block headeractions %}{% endblock %}
+
+{% block pagecontent %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Ricevute</h6>
+                </div>
+                <div class="card-body">
+                    <div class="p-30">
+                        <div class="row no-space">
+                            <canvas id="wines_by_category"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block customjavascript %}
+    <script>
+        let ctx = document.getElementById('wines_by_category').getContext('2d');
+        let winesByCategory;
+        $(function() {
+            $.get('', function(data) {
+                let chartData = {
+                    datasets: [{
+                        data: data.numbers,
+                        backgroundColor: data.colors
+                    }],
+                    labels: data.labels
+                };
+                winesByCategory = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: chartData,
+                    options: {
+                        animation: {
+                            animateScale: true
+                        }
+                    }
+                });
+            });
+        });
+
+        function updateWinesByCategory() {
+            $.get('', function(data) {
+                winesByCategory.data = {
+                    datasets: [{
+                        data: data.numbers,
+                        backgroundColor: data.colors
+                    }],
+                    labels: data.labels
+                };
+                winesByCategory.update();
+            });
+        }
+    </script>
+{% endblock %}

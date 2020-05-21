@@ -1,0 +1,5 @@
+.background-custom {
+    background-color: rgb(188,70,64);
+    background-image: radial-gradient(rgb(188,70,64) 10%, #900020 100%);
+    background-size: cover;
+}
