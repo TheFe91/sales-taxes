@@ -14,11 +14,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductsController extends Controller
 {
     /**
- * @Route("/add-product", name="addProduct_url")
- * @param Request $request
- * @return Response
- * @throws Exception
- */
+     * @Route("/get-baskets", name="getBaskets_url")
+     * @return Response
+     */
+    public function getBaskets() {
+        $em = $this->getDoctrine()->getManager();
+        $return = array();
+
+        $baskets = $em->getRepository('AppBundle:ShoppingBaskets')->findAll();
+
+        foreach ($baskets as $basket) {
+            $return[$basket->getUid()->toString()] = $basket->getName();
+        }
+
+        return Responder::generateResponse(array('data' => $return));
+    }
+
+    /**
+     * @Route("/add-product", name="addProduct_url")
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
     public function addProduct(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();

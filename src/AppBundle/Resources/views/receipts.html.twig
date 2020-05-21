@@ -71,11 +71,23 @@
         });
 
         $('#addProduct').on('click', function() {
-            $('#insertModal').modal('show');
+            $.get('{{ url('getBaskets_url') }}', function(data) {
+                $('#basket').empty();
+                $.each(data.data, function(k,v) {
+                    $('#basket').append(new Option(v, k));
+                });
+                $('#insertModal').modal('show');
+            });
         });
 
         $('#generateReceipt').on('click', function() {
-            $('#generateReceiptModal').modal('show');
+            $.get('{{ url('getBaskets_url') }}', function(data) {
+                $('#basket_receipts').empty();
+                $.each(data.data, function(k,v) {
+                    $('#basket_receipts').append(new Option(v, k));
+                });
+                $('#generateReceiptModal').modal('show');
+            });
         });
 
         function addProduct() {

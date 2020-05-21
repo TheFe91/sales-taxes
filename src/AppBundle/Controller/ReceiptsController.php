@@ -24,7 +24,6 @@ class ReceiptsController extends Controller
         return $this->render('@App/receipts.html.twig',
             array(
                 'categories' => $em->getRepository('AppBundle:Categories')->findAll(),
-                'baskets' => $em->getRepository('AppBundle:ShoppingBaskets')->findAll()
             )
         );
     }
@@ -39,8 +38,9 @@ class ReceiptsController extends Controller
         $em = $this->getDoctrine()->getManager();
         $parameters = $request->request->all();
 
-//        $basket = $em->getRepository('AppBundle:ShoppingBaskets')->find($parameters['basket']);
-//        $products = $em->getRepository('AppBundle:Products')->findBy(array('basket_uid' => $basket));
+        $basket = $em->getRepository('AppBundle:ShoppingBaskets')->find($parameters['basket']);
+        $products = $em->getRepository('AppBundle:Products')->findBy(array('basket_uid' => $basket));
+
 
         return Responder::generateResponse();
     }
@@ -71,6 +71,6 @@ class ReceiptsController extends Controller
 
         file_put_contents($pdfFilepath, $output);
 
-        return new BinaryFileResponse($pdfFilepath, );
+//        return new BinaryFileResponse($pdfFilepath, );
     }
 }

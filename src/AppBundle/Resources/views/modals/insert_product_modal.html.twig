@@ -17,9 +17,6 @@
                             <label class="form-control-label" for="basket">Shopping Basket</label>
                             <select style="width: 100%" class="form-control fields" id="basket" name="basket">
                                 <option></option>
-                                {% for basket in baskets %}
-                                    <option value="{{ basket.getUid }}">{{ basket.getName }}</option>
-                                {% endfor %}
                             </select>
                         </div>
                         <div class="col-12">
