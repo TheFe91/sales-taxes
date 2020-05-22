@@ -14,7 +14,7 @@ class AdminController extends Controller
      */
     public function indexAction(): Response
     {
-        return $this->render('@App/dashboard.html.twig');
+        return $this->redirectToRoute('renderReceipts_url');
     }
 
     /**
