@@ -29,4 +29,6 @@ RUN usermod -u 1000 www-data
 
 WORKDIR /var/www/html
 
-#RUN composer install && php bin/console doctrine:schema:create && php bin/console assets:install
+RUN composer install && php bin/console doctrine:schema:create && php bin/console assets:install
+
+RUN php bin/console set:initial:data
