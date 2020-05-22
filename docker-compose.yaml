@@ -32,13 +32,3 @@ services:
       MYSQL_PASSWORD: dev_passwd
     ports:
       - 6033:3306
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - db
-    ports:
-      - 8000:80
-    environment:
-      MYSQL_USER: dev_usr
-      MYSQL_PASSWORD: dev_passwd
-      MYSQL_ROOT_PASSWORD: root
