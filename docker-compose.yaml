@@ -1,8 +1,5 @@
 version: '3.4'
 
-volumes:
-  database:
-
 services:
   app:
     ports:
@@ -45,5 +42,3 @@ services:
       MYSQL_USER: dev_usr
       MYSQL_PASSWORD: dev_passwd
       MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - database:/var/lib/mysql
