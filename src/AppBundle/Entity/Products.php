@@ -61,8 +61,21 @@ class Products
      *
      * @ORM\Column(type="boolean")
      */
-    private $taxes = false;
+    private $taxes5 = false;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $taxes10 = false;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(type="decimal", precision=6, scale=2)
+     */
+    private $row_amount;
 
 
     /**
@@ -148,51 +161,75 @@ class Products
     }
 
     /**
-     * Set taxes.
+     * Set taxes5.
      *
-     * @param bool $taxes
+     * @param bool $taxes5
      *
      * @return Products
      */
-    public function setTaxes($taxes)
+    public function setTaxes5($taxes5)
     {
-        $this->taxes = $taxes;
+        $this->taxes5 = $taxes5;
 
         return $this;
     }
 
     /**
-     * Get taxes.
+     * Get taxes5.
      *
      * @return bool
      */
-    public function getTaxes()
+    public function getTaxes5()
     {
-        return $this->taxes;
+        return $this->taxes5;
     }
 
     /**
-     * Set categoryUid.
+     * Set taxes10.
      *
-     * @param \AppBundle\Entity\Categories|null $categoryUid
+     * @param bool $taxes10
      *
      * @return Products
      */
-    public function setCategoryUid(\AppBundle\Entity\Categories $categoryUid = null)
+    public function setTaxes10($taxes10)
     {
-        $this->category_uid = $categoryUid;
+        $this->taxes10 = $taxes10;
 
         return $this;
     }
 
     /**
-     * Get categoryUid.
+     * Get taxes10.
      *
-     * @return \AppBundle\Entity\Categories|null
+     * @return bool
      */
-    public function getCategoryUid()
+    public function getTaxes10()
     {
-        return $this->category_uid;
+        return $this->taxes10;
+    }
+
+    /**
+     * Set rowAmount.
+     *
+     * @param string $rowAmount
+     *
+     * @return Products
+     */
+    public function setRowAmount($rowAmount)
+    {
+        $this->row_amount = $rowAmount;
+
+        return $this;
+    }
+
+    /**
+     * Get rowAmount.
+     *
+     * @return string
+     */
+    public function getRowAmount()
+    {
+        return $this->row_amount;
     }
 
     /**
@@ -217,5 +254,29 @@ class Products
     public function getBasketUid()
     {
         return $this->basket_uid;
+    }
+
+    /**
+     * Set categoryUid.
+     *
+     * @param \AppBundle\Entity\Categories|null $categoryUid
+     *
+     * @return Products
+     */
+    public function setCategoryUid(\AppBundle\Entity\Categories $categoryUid = null)
+    {
+        $this->category_uid = $categoryUid;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryUid.
+     *
+     * @return \AppBundle\Entity\Categories|null
+     */
+    public function getCategoryUid()
+    {
+        return $this->category_uid;
     }
 }

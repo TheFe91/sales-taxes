@@ -8,19 +8,17 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ url('generateReceipts_url') }}" autocomplete="off" id="receipts_form">
-                    <div class="row">
-                        <div class="col-12">
-                            <p id="error_receipt" class="d-none" style="color: red;font-weight: bold;">PLEASE SELECT A SHOPPING BASKET!</p>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-control-label" for="basket_receipts">Shopping Basket</label>
-                            <select style="width: 100%" class="form-control selects" id="basket_receipts" name="basket">
-                                <option></option>
-                            </select>
-                        </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p id="error_receipt" class="d-none" style="color: red;font-weight: bold;">PLEASE SELECT A SHOPPING BASKET!</p>
                     </div>
-                </form>
+                    <div class="col-12">
+                        <label class="form-control-label" for="basket_receipts">Shopping Basket</label>
+                        <select style="width: 100%" class="form-control selects" id="basket_receipts" name="basket">
+                            <option></option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Cancel</button>

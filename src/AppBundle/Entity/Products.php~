@@ -61,137 +61,20 @@ class Products
      *
      * @ORM\Column(type="boolean")
      */
-    private $taxes = false;
-
-
+    private $taxes5 = false;
 
     /**
-     * Get uid.
+     * @var bool
      *
-     * @return uuid
+     * @ORM\Column(type="boolean")
      */
-    public function getUid()
-    {
-        return $this->uid;
-    }
+    private $taxes10 = false;
 
     /**
-     * Set description.
+     * @var bool
      *
-     * @param string $description
-     *
-     * @return Products
+     * @ORM\Column(type="decimal", precision=6, scale=2)
      */
-    public function setDescription($description)
-    {
-        $this->description = $description;
+    private $row_amount;
 
-        return $this;
-    }
-
-    /**
-     * Get description.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set quantity.
-     *
-     * @param int $quantity
-     *
-     * @return Products
-     */
-    public function setQuantity($quantity)
-    {
-        $this->quantity = $quantity;
-
-        return $this;
-    }
-
-    /**
-     * Get quantity.
-     *
-     * @return int
-     */
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * Set shelfPrice.
-     *
-     * @param string $shelfPrice
-     *
-     * @return Products
-     */
-    public function setShelfPrice($shelfPrice)
-    {
-        $this->shelf_price = $shelfPrice;
-
-        return $this;
-    }
-
-    /**
-     * Get shelfPrice.
-     *
-     * @return string
-     */
-    public function getShelfPrice()
-    {
-        return $this->shelf_price;
-    }
-
-    /**
-     * Set taxes.
-     *
-     * @param bool $taxes
-     *
-     * @return Products
-     */
-    public function setTaxes($taxes)
-    {
-        $this->taxes = $taxes;
-
-        return $this;
-    }
-
-    /**
-     * Get taxes.
-     *
-     * @return bool
-     */
-    public function getTaxes()
-    {
-        return $this->taxes;
-    }
-
-    /**
-     * Set categoryUid.
-     *
-     * @param \AppBundle\Entity\Categories|null $categoryUid
-     *
-     * @return Products
-     */
-    public function setCategoryUid(\AppBundle\Entity\Categories $categoryUid = null)
-    {
-        $this->category_uid = $categoryUid;
-
-        return $this;
-    }
-
-    /**
-     * Get categoryUid.
-     *
-     * @return \AppBundle\Entity\Categories|null
-     */
-    public function getCategoryUid()
-    {
-        return $this->category_uid;
-    }
 }

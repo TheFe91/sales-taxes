@@ -2,12 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Services\Responder;
-use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,48 +25,19 @@ class ReceiptsController extends Controller
     }
 
     /**
-     * @Route("/generate-receipt", name="generateReceipts_url")
-     * @param Request $request
+     * @Route("/generate-receipt/{basket_uid}", name="generateReceipts_url", defaults={"basket_uid" = ""})
      * @return Response
      */
-    public function generateReceipts(Request $request): Response
+    public function generateReceipts($basket_uid): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $parameters = $request->request->all();
 
-        $basket = $em->getRepository('AppBundle:ShoppingBaskets')->find($parameters['basket']);
+        $basket = $em->getRepository('AppBundle:ShoppingBaskets')->find($basket_uid);
         $products = $em->getRepository('AppBundle:Products')->findBy(array('basket_uid' => $basket));
 
-
-        return Responder::generateResponse();
-    }
-
-    /**
-     * @Route("/pdf-receipt", name="pdfReceipts_url")
-     * @return Response
-     */
-    public function pdfReceipts(): Response
-    {
-        $options = new Options();
-        $options->set('defaultFont', 'Roboto');
-
-
-        $dompdf = new Dompdf($options);
-
-        $html = $this->renderView('@App/receipt_pdf.html.twig', [
-            'title' => "Test pdf generator"
+        return $this->render('@App/receipt_pdf.html.twig', [
+            'title' => $basket->getName(),
+            'products' => $products,
         ]);
-
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-        $output = $dompdf->output();
-
-        $publicDirectory = $this->get('kernel')->getProjectDir() . '/pdf';
-        $pdfFilepath =  $publicDirectory . '/mypdf.pdf';
-
-        file_put_contents($pdfFilepath, $output);
-
-//        return new BinaryFileResponse($pdfFilepath, );
     }
 }

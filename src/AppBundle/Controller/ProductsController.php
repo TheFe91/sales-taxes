@@ -60,8 +60,10 @@ class ProductsController extends Controller
             $product->setDescription($parameters['description']);
             $product->setCategoryUid($category);
             $product->setQuantity($parameters['quantity']);
-            $product->setTaxes($category->getHasTaxes());
+            $product->setTaxes10($category->getHasTaxes());
+            $product->setTaxes5(strpos(strtolower($parameters['description']), 'imported'));
             $product->setShelfPrice($parameters['shelf_price']);
+            $product->setRowAmount($parameters['quantity'] * $parameters['shelf_price']);
             $em->persist($product);
             $em->flush();
 
@@ -74,11 +76,9 @@ class ProductsController extends Controller
 
     /**
      * @Route("/get-products", name="getProducts_url")
-     * @param Request $request
      * @return Response
-     * @throws Exception
      */
-    public function getProducts(Request $request): Response
+    public function getProducts(): Response
     {
         $em = $this->getDoctrine()->getManager();
         $return = array();
@@ -86,25 +86,17 @@ class ProductsController extends Controller
 
         foreach ($products as $product) {
 
-            $net_row_amount = $product->getQuantity() * $product->getShelfPrice();
+            $taxes = 'FREE';
 
-            if ($product->getTaxes()) {
+            if ($product->getTaxes10() && $product->getTaxes5()) {
+                $taxes = '10% + 5%';
+            }
+            else if ($product->getTaxes10() && !$product->getTaxes5()) {
                 $taxes = '10%';
-                $row_amount = $net_row_amount + ($net_row_amount/10);
             }
-            else {
-                $taxes = 'FREE';
-                $row_amount = $net_row_amount;
+            else if (!$product->getTaxes10() && $product->getTaxes5()) {
+                $taxes = '5%';
             }
-
-//            $ra = number_format($row_amount, 2);
-//            $last_digit = substr("$ra", -1);
-//            if (in_array($last_digit, array('1', '2', '3', '4'))) {
-//                $row_amount = substr("$ra", 0, -1) . '5';
-//            }
-//            elseif (in_array($last_digit, array('6', '7', '8', '9'))) {
-//                $row_amount = substr("$ra", 0, -1) . '0';
-//            }
 
             $return[$product->getUid()->toString()] = array(
                 'basket' => $product->getBasketUid()->getName(),
@@ -112,8 +104,7 @@ class ProductsController extends Controller
                 'description' => $product->getDescription(),
                 'quantity' => $product->getQuantity(),
                 'shelf_price' => $product->getShelfPrice(),
-                'taxes' => $taxes,
-                'row_amount' => number_format($row_amount, 2)
+                'taxes' => $taxes
             );
         }
 

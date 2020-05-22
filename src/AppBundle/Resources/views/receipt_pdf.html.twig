@@ -1,11 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>{{ title }}</title>
-    </head>
-    <body>
-        <h4>{{ title }}</h4>
-        <p>Lorem Ipsum</p>
-    </body>
-</html>
+{% extends '@App/includes/base.html.twig' %}
+
+{% block headtitle %}RECEIPT - {{ title }}{% endblock %}
+
+{% block topbar %}{% endblock %}
+{% block sidebar %}{% endblock %}
+
+{% block pagecontent %}
+    <div class="row">
+        <div class="col-lg-12 table-responsive">
+            <table id="page_table" class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Shelf Price</th>
+                    <th>Taxes</th>
+                    <th>Row Amount</th>
+                    <th>Taxed Row Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% set sales_taxes = 0 %}
+                    {% set total = 0 %}
+                    {% for product in products %}
+
+                        {% if not product.getTaxes10 and not product.getTaxes5 %}
+                            {% set taxed_row_amount = product.getRowAmount %}
+                            {% set taxes = 'FREE' %}
+                        {% elseif product.getTaxes10 and not product.getTaxes5 %}
+                            {% set taxed_row_amount = product.getRowAmount + (product.getRowAmount / 10) %}
+                            {% set taxes = '10%' %}
+                            {% set sales_taxes = sales_taxes + product.getRowAmount / 10 %}
+                        {% elseif not product.getTaxes10 and product.getTaxes5 %}
+                            {% set taxed_row_amount = product.getRowAmount + (product.getRowAmount / 20) %}
+                            {% set taxes = '5%' %}
+                            {% set sales_taxes = sales_taxes + product.getRowAmount / 20 %}
+                        {% else %}
+                            {% set taxed_row_amount = product.getRowAmount + (product.getRowAmount / 10) + (product.getRowAmount / 20) %}
+                            {% set taxes = '10% + 5%' %}
+                            {% set sales_taxes = sales_taxes + product.getRowAmount / 10 + product.getRowAmount / 20 %}
+                        {% endif %}
+
+                        {% set total = total + taxed_row_amount %}
+
+                        <tr>
+                            <td>{{ product.getCategoryUid.getDescription }}</td>
+                            <td>{{ product.getDescription }}</td>
+                            <td>{{ product.getQuantity }}</td>
+                            <td>{{ product.getShelfPrice }}</td>
+                            <td>{{ taxes }}</td>
+                            <td>{{ product.getRowAmount }}</td>
+                            <td>{{ taxed_row_amount|round(2, 'ceil')|number_format(2) }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="6" class="text-right">Sales Taxes</td>
+                        <td>{{ sales_taxes|round(2, 'ceil')|number_format(2) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="text-right">Total</td>
+                        <td>{{ total|number_format(2) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

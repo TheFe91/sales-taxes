@@ -39,7 +39,6 @@
                     <th>Quantity</th>
                     <th>Shelf Price</th>
                     <th>Taxes</th>
-                    <th>Row Amount</th>
                 </tr>
                 </thead>
                 <tbody id="pageTBody"></tbody>
@@ -111,16 +110,12 @@
 
         function generateReceipt() {
             if ($('#basket_receipts').val() !== '') {
-                const form = $('#receipts_form');
-                $.post(
-                    form.attr('action'),
-                    form.serialize(),
-                    function() {
-                        $('#generateReceiptModal').modal('hide');
-                        $('#error_receipt').addClass('d-none');
-                        window.open('{{ url('pdfReceipts_url') }}', '_blank');
-                    }
-                );
+                {#$.get(`{{ url('generateReceipts_url') }}/${$('#basket_receipts').val()}`, function() {#}
+                {#        $('#generateReceiptModal').modal('hide');#}
+                {#        $('#error_receipt').addClass('d-none');#}
+                {#        window.open('{{ url('pdfReceipts_url') }}', '_blank');#}
+                {#});#}
+                window.open(`{{ url('generateReceipts_url') }}/${$('#basket_receipts').val()}`);
             }
             else {
                 $('#error_receipt').removeClass('d-none');
@@ -142,7 +137,6 @@
                             <td>${v['quantity']}</td>
                             <td>${v['shelf_price']}</td>
                             <td>${v['taxes']}</td>
-                            <td>${v['row_amount']}</td>
                         </tr>
                     `;
                     $('#pageTBody').append(append);
