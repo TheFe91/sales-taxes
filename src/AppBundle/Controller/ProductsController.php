@@ -61,7 +61,7 @@ class ProductsController extends Controller
             $product->setCategoryUid($category);
             $product->setQuantity($parameters['quantity']);
             $product->setTaxes10($category->getHasTaxes());
-            $product->setTaxes5(strpos(strtolower($parameters['description']), 'imported'));
+            $product->setTaxes5(strpos(strtolower($parameters['description']), 'imported') !== false);
             $product->setShelfPrice($parameters['shelf_price']);
             $product->setRowAmount($parameters['quantity'] * $parameters['shelf_price']);
             $em->persist($product);
