@@ -16,7 +16,6 @@ These are the steps you need to do
     * database_name: SalesTaxes
     * database_user: dev_usr
     * database_password: dev_passwd
-    *
     * Set all the other parameters to `null` 
 6. The application runs on your local machine on port 80, so you can access it by typing `http://localhost` in your browser
 7. You'll be presented a page where you can create products and associate them to a shopping list. Conventionally the categories are 2: *"Books, food and medical products"* and *"Other"*. There's no way to add new categories at this time
