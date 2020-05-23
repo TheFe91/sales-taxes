@@ -8,7 +8,8 @@ These are the steps you need to do
 1. Clone this project in a directory of your choice
 2. Open a terminal, navigate to this directory and run `docker-compose build`
 3. Once finished run `docker-compose up -d` (***NOTE: your ports 80 and 6033 must be free***)
-4. You'll need to connect to the container (you can do this by typing `docker exec -it sales-taxes_app_1 bash`) and then run this command to initialize some necessary data: `composer install && php bin/console doctrine:schema:create && php bin/console assets:install && php bin/console set:initial:data && php bin/console cache:clear --env=prod`
+4. You'll need to connect to the container (you can do this by typing `docker exec -it sales-taxes_app_1 bash`) and then run this command to initialize some necessary data: `composer install && php bin/console doctrine:schema:create && php bin/console set:initial:data && php bin/console cache:clear --env=prod && apachectl restart`
+    * Note that the command below will kick you out from the container after the last step will be completed, but this is perfectly fine, as you won't need the shell anymore
     * If prompted, answer `yes` to `The authenticity of host 'github.com' can't be established. Are you sure you want to continue connecting?`)
 5. At the end of the installation, Composer will ask you some mandatory parameters. Answer in this way
     * database_host: db
