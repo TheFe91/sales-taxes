@@ -10,8 +10,8 @@ However, even if it is not necessary, I strongly recommend to use the container-
 
 
 1. Clone this project with the `git clone` command in a directory of your choice
-    * If you'll use HTTPS use `git clone https://github.com/TheFe91/sales-taxes.git SalesTaxes` to clone the project
-    * If you'll use SSH use `git clone git@github.com:TheFe91/sales-taxes.git SalesTaxes` to clone the project
+    * If you'll use HTTPS use `git clone https://github.com/TheFe91/sales-taxes.git` to clone the project
+    * If you'll use SSH use `git clone git@github.com:TheFe91/sales-taxes.git` to clone the project
 2. Open a terminal, navigate to this directory and run `docker-compose build`
 3. Once finished run `docker-compose up -d` (***NOTE: your ports 80 and 6033 must be free***)
 4. You'll need to connect to the container (you can do this by typing `docker exec -it sales-taxes_app_1 bash`) and then run this command to initialize some necessary data: `composer install && php bin/console doctrine:schema:create && php bin/console set:initial:data && php bin/console cache:clear --env=prod && apachectl restart`
