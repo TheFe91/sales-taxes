@@ -21,7 +21,7 @@ However, even if it is not necessary, I strongly recommend to use the container-
     * database_name: `SalesTaxes`
     * database_user: `dev_usr`
     * database_password: `dev_passwd`
-    * Set all the other parameters to `null` 
+    * Leave all the other parameters to their default value by hitting `Enter`
 6. The application runs on your local machine on port 80, so you can access it by typing `http://localhost` in your browser
 
 #### IF YOU WANT TO JUST USE THE APPLICATION
