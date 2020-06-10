@@ -75,6 +75,7 @@
                 $.each(data.data, function(k,v) {
                     $('#basket').append(new Option(v, k));
                 });
+                $('.fields').val('').trigger('change');
                 $('#insertModal').modal('show');
             });
         });
@@ -91,7 +92,6 @@
 
         function addProduct() {
             const fields = $('.fields');
-            fields.val('').trigger('change');
             if (fields.filter((k, el) => el.value !== '').length === fields.length) {
                 const page_form = $('#insert_form');
                 $.post(
