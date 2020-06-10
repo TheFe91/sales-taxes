@@ -97,7 +97,7 @@
                     page_form.serialize(),
                     function() {
                         $('#insertModal').modal('hide');
-                        $('.fields').val('');
+                        $('.fields').val('').trigger('change');
                         $('#error').addClass('d-none');
                         fillTable();
                     }
