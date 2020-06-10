@@ -90,14 +90,15 @@
         });
 
         function addProduct() {
-            if ($('.fields').val() !== '') {
+            const fields = $('.fields');
+            fields.val('').trigger('change');
+            if (fields.filter((k, el) => el.value !== '').length === fields.length) {
                 const page_form = $('#insert_form');
                 $.post(
                     page_form.attr('action'),
                     page_form.serialize(),
                     function() {
                         $('#insertModal').modal('hide');
-                        $('.fields').val('').trigger('change');
                         $('#error').addClass('d-none');
                         fillTable();
                     }

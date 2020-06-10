@@ -22,7 +22,7 @@
                         <div class="col-12">
                             <label class="form-control-label" for="category">Category</label>
                             <select style="width: 100%" class="form-control selects fields" id="category" name="category">
-                                <option></option>
+                                <option value=""></option>
                                 {% for category in categories %}
                                     <option value="{{ category.getUid }}">{{ category.getDescription }}</option>
                                 {% endfor %}
